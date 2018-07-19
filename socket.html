@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="yes" name="apple-touch-fullscreen">
+  <meta content="telephone=no,email=no" name="format-detection">
+  <title>诊断详情</title>
+  <link rel="stylesheet" href="./css/socket.css" />
+  <script src="https://gw.alipayobjects.com/os/antv/assets/f2/3.1.15/f2.min.js"></script>
+  <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+  <div class="status-container">
+      <p style="line-height: 1;margin: 2.4vw 0 3.2vw;">
+          <span style="font-size: 4.8vw;">中欧时代先锋股票</span>
+          <span style="font-size: 3.2vw;font-weight: 300;padding-left: 1.7333333333333334vw;">001938</span>
+      </p>
+      <div class="flex" style="margin-bottom: 1.0666666666666667vw">
+          <div class="auxiliary-font">最近净值(04-18)</div>
+          <div class="auxiliary-font">日涨幅</div>
+      </div>
+      <div class="flex" style="margin-bottom: 4vw">
+          <div class="main-font">1.2380</div>
+          <div class="main-font">2.98%</div>
+      </div>
+      <div class="cut-off-container flex">
+          <div class="auxiliary-font" style="line-height: 9.6vw;">近一个月：2.19%</div>
+          <div class="auxiliary-font right-part" style="line-height: 9.6vw;">近三个月：3.37%</div>
+      </div>
+  </div>
+  <div class="diagnose-container">
+      <div class="title-container">
+        基金诊断<img src="https://gw.alipayobjects.com/zos/rmsportal/TDVdSYoxhzcmVyxyhhwm.png" style="display: inline-block;width: 12px;height: 12px;margin-left: 1.0666666666666667vw;">
+    </div>
+      <div id="chart-container">
+        <!-- 图表主题 -->
+        <canvas id="mountNode"></canvas>
+        <!-- 自定义 tooltip -->
+        <div class="chart-tooltip">
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div class="sum-container">
+          <p class="auxiliary-font" style="transform: scale(0.8333333333333334);margin: 1.0666666666666667vw 0;">综合诊断排名</p>
+          <p style="margin: 1.0666666666666667vw 0;">
+              <span class="main-font" style="color:#1890FF;">2013</span>
+              <span class="main-font">/2578</span>
+          </p>
+      </div>
+  </div>
+
+  <script>
+    const data = [
+      { name: '超大盘能力', value: 6.5, illustrate: '超大盘能力值越高表示相对于参考指数表现越好' },
+      { name: '抗跌能力', value: 9.5, illustrate: '股市下跌，净值下跌幅度越小，分值越高' },
+      { name: '稳定能力', value: 9, illustrate: '分支越高稳定性越强' },
+      { name: '绝对收益能力', value: 6, illustrate: '分值越高绝对收益能力越强' },
+      { name: '选证择时能力', value: 6, illustrate: '分值越高选证择时能力越强' },
+      { name: '风险回报能力', value: 8, illustrate: '分值越高风险回报能力越强' }
+    ];
+
+    const chart = new F2.Chart({
+      id: 'mountNode',
+      pixelRatio: window.devicePixelRatio
+    });
+    chart.source(data, {
+      value: {
+        min: 0,
+        max: 10,
+        tickCount: 4
+      }
+    });
+    chart.coord('polar');
+    chart.axis('value', {
+      label: null,
+      grid(text, index) {
+        if (index === 3) {
+          return {
+            lineDash: null
+          };
+        }
+      }
+    });
+    chart.tooltip({
+      custom: true,
+      onChange(e) {
+        const item = e.items[0];
+        const origin = item.origin;
+        const tooltipEl = $('.chart-tooltip');
+        tooltipEl.html(
+          '<span>' + origin.name + ': ' + origin.value + '</span>' +
+          '<span>' + origin.illustrate + '</span>'
+        );
+
+        // 设置 tooltip 位置
+        const canvasOffsetTop = $('#mountNode').position().top;
+        const canvasOffsetLeft = $('#mountNode').position().left;
+        const tooltipWidth = tooltipEl.outerWidth();
+        const tooltipHeight = tooltipEl.outerHeight();
+
+        tooltipEl.css({
+          visibility: 'visible',
+          left: canvasOffsetLeft + item.x - tooltipWidth / 2,
+          top: canvasOffsetTop + item.y - tooltipHeight - 15
+        });
+      },
+      onHide() {
+        const tooltipEl = $('.chart-tooltip');
+        tooltipEl.css({
+          visibility: 'hidden'
+        });
+      }
+    });
+    chart.area().position('name*value').style({
+      fillOpacity: 0.6
+    }).animate({
+      appear: {
+        animation: 'groupWaveIn'
+      }
+    });
+    chart.line().position('name*value').animate({
+      appear: {
+        animation: 'groupWaveIn'
+      }
+    });
+    chart.point().position('name*value').style({
+      lineWidth: 1,
+      stroke: '#fff'
+    }).animate({
+      appear: {
+        delay: 300
+      }
+    });
+
+    chart.guide().html({
+      position: ['50%', '50%'],
+      html: '<div style="color: #fff;white-space: nowrap;text-align:center;">'
+        + '<p style="font-size: 4.266666666666667vw;margin:0;">诊断分</p>'
+        + '<p style="font-size: 9vw;margin:0;font-weight: bold;">73</p>'
+        + '</div>'
+    });
+    chart.render();
+  </script>
+</body>
+</html>

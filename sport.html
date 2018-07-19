@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="yes" name="apple-touch-fullscreen">
+  <meta content="telephone=no,email=no" name="format-detection">
+  <script src="https://gw.alipayobjects.com/os/antv/assets/f2/3.1.15/f2.min.js"></script>
+  <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+  <title>我的运动</title>
+  <link rel="stylesheet" href="./css/sport.css" />
+</head>
+<body>
+  <img class="bkg" src="https://gw.alipayobjects.com/zos/rmsportal/DnHPKuHjzrGUAgXKrAZO.png" alt="背景图片" />
+  <div class="avatar-container">
+    <img class="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/bjtEqXVNIqVCgqhpdHmm.png" alt="antv" />
+  </div>
+  <div class="chart-container">
+    <div class="chart-header"></div>
+    <canvas id="mountNode"></canvas>
+    <!-- 自定义 tooltip -->
+    <div class="chart-tooltip" id="tooltip"></div>
+  </div>
+
+  <!-- js 脚本 -->
+  <script>
+    const data = [
+      { date: '2018-04-21', steps: 59 },
+      { date: '2018-04-22', steps: 2515 },
+      { date: '2018-04-23', steps: 6524 },
+      { date: '2018-04-24', steps: 26044 },
+      { date: '2018-04-25', steps: 29763 },
+      { date: '2018-04-26', steps: 10586 },
+      { date: '2018-04-27', steps: 14758 },
+      { date: '2018-04-29', steps: 549 },
+      { date: '2018-04-30', steps: 21 },
+      { date: '2018-05-01', steps: 1069 },
+      { date: '2018-05-02', steps: 7918 },
+      { date: '2018-05-03', steps: 5381 },
+      { date: '2018-05-04', steps: 11549 },
+      { date: '2018-05-06', steps: 19461 },
+      { date: '2018-05-07', steps: 22487 },
+      { date: '2018-05-08', steps: 11062 },
+      { date: '2018-05-09', steps: 7101 },
+      { date: '2018-05-10', steps: 12776 },
+      { date: '2018-05-11', steps: 12919 },
+      { date: '2018-05-12', steps: 7216 },
+      { date: '2018-05-13', steps: 4867 },
+      { date: '2018-05-14', steps: 8725 },
+      { date: '2018-05-15', steps: 8983 },
+      { date: '2018-05-16', steps: 22348 },
+      { date: '2018-05-17', steps: 17142 },
+      { date: '2018-05-18', steps: 8715 },
+      { date: '2018-05-19', steps: 3861 },
+      { date: '2018-05-20', steps: 8 },
+      { date: '2018-05-21', steps: 24365 },
+      { date: '2018-05-22', steps: 14271 }
+    ];
+
+    $('.chart-header').text('步数：' + data[data.length - 1].steps);
+    // 创建区域图的渐变色
+    const canvas = document.getElementById('mountNode');
+    const ctx = canvas.getContext('2d');
+    const grd = ctx.createLinearGradient(0, canvas.offsetHeight, 0, 0);
+    grd.addColorStop(0.03, "rgba(216,216,216,0.10)");
+    grd.addColorStop(1, "#6CD8B7");
+
+    const chart = new F2.Chart({
+      id: 'mountNode',
+      pixelRatio: window.devicePixelRatio,
+      padding: [ 20, 30, 'auto', 'auto' ]
+    });
+    chart.source(data, {
+      date: {
+        type: 'timeCat',
+        range: [ 0, 1 ],
+        mask: 'MM-D'
+      },
+      steps: {
+        ticks: [ 10000 ],
+        formatter(val) {
+          return val === 10000 ? '1W' : 0;
+        }
+      }
+    });
+    chart.axis('date', {
+      line: {
+        stroke: '#75C2B4'
+      },
+      label(text, index, total) {
+        const cfg = {
+          textAlign: 'center',
+          fill: '#5FD3C2',
+          fontSize: 12
+        };
+        if (index === 0) {
+          cfg.textAlign = 'start';
+          cfg.text = text.split('-').join('月');
+        } else {
+          cfg.text = text.split('-')[1];
+        }
+
+        if (index === total - 1) {
+          cfg.textAlign = 'end';
+          cfg.fill = '#B5FFFD';
+        }
+
+        return cfg;
+      }
+    })
+    chart.axis('steps', {
+      position: 'right',
+      label: {
+        fill: '#71CDCD',
+        fontSize: 9
+      },
+      grid: {
+        stroke: '#77C0B3'
+      }
+    });
+    chart.tooltip({
+      custom: true,
+      showCrosshairs: true,
+      showTooltipMarker: false,
+      crosshairsStyle: {
+        lineDash: [ 2 ],
+        stroke: '#77C0B3'
+      },
+      onChange(e) {
+        const item = e.items[0];
+        const origin = item.origin;
+        const tooltipEl = $('#tooltip');
+        tooltipEl.text(origin.steps);
+        // 设置 tooltip 位置
+        const canvasOffsetTop = $('#mountNode').position().top;
+        const canvasOffsetLeft = $('#mountNode').position().left;
+        const tooltipWidth = tooltipEl.outerWidth();
+        tooltipEl.css({
+          visibility: 'visible',
+          left: canvasOffsetLeft + item.x - tooltipWidth / 2,
+          top: canvasOffsetTop
+        });
+      },
+      onHide() {
+        const tooltipEl = $('#tooltip');
+        tooltipEl.css({
+          visibility: 'hidden'
+        });
+      }
+    });
+    chart.area().position('date*steps').style({
+      fill: grd,
+      fillOpacity: 1
+    });
+    chart.line().position('date*steps').color('#A0FFF8').size(1.5);
+    chart.point().position('date*steps').color('#8CFFF6').size(3);
+    chart.render();
+  </script>
+</body>
+</html>

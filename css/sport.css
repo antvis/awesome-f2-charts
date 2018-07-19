@@ -1,0 +1,82 @@
+
+/*375 * 667*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  -moz-user-select:none;
+  -webkit-user-select:none;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: "Helvetica Neue", "San Francisco", Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+html, body {
+    height: 100%;
+    background-color: #F2F2F2;
+}
+.bkg {
+    width: 100%;
+    height: 74.13333333333333vw;
+}
+.avatar-container {
+    position: absolute;
+    left: 50%;
+    top: 64.799999999999995vw;
+    width: 18.666666666666667vw;
+    height: 18.666666666666667vw;
+    margin-left: -9.333333333333333vw;
+    border-radius: 9.333333333333333vw;
+    background-color: #fff;
+    text-align: center;
+    overflow: hidden;
+}
+.avatar {
+    width:13.6vw;
+    height:13.6vw;
+    margin-top: 2.66666vw;
+}
+.chart-container {
+    position: relative;
+    margin: 13.066666666666666vw 2.4vw 0 2.4vw;
+    height: 53.86666666666667vw;
+    background-image: linear-gradient(135deg, #17BE81 0%, #1494a3 100%);
+    border-radius: 1.0666666666666667vw;
+    overflow: hidden;
+}
+
+.chart-header {
+    height: 10.933333333333333vw;
+    margin: 0 3.2vw;
+    box-shadow: 0 1px 0 0 #77C0B3;
+    line-height: 10.933333333333333vw;
+    text-align: right;
+    color: #CFFFF2;
+    font-size: 6.133333333333333vw;
+}
+
+canvas#mountNode {
+    display: block;
+    width: 100%;
+    height: 42.8vw;
+}
+
+.chart-tooltip {
+    position: absolute;
+    z-index: 99;
+    font-size: 3.2vw;
+    color: rgba(207, 254, 255, .8);
+    text-align: center;
+    top: 38vw;
+    left: 0;
+    margin-top: 3px;
+    visibility: hidden;
+    transition: visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1), top 0.4s cubic-bezier(0.23, 1, 0.32, 1)
+}
