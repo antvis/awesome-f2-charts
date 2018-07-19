@@ -15,7 +15,7 @@
   <div class="status-container">
       <p style="line-height: 1;margin: 2.4vw 0 3.2vw;">
           <span style="font-size: 4.8vw;">中欧时代先锋股票</span>
-          <span style="font-size: 3.2vw;font-weight: 300;padding-left: 1.7333333333333334vw;">001938</span>
+          <span style="font-size: 3.066666666666667vw;font-weight: 300;padding-left: 1.7333333333333334vw;">001938</span>
       </p>
       <div class="flex" style="margin-bottom: 1.0666666666666667vw">
           <div class="auxiliary-font">最近净值(04-18)</div>
@@ -44,10 +44,10 @@
         </div>
       </div>
       <div class="sum-container">
-          <p class="auxiliary-font" style="transform: scale(0.8333333333333334);margin: 1.0666666666666667vw 0;">综合诊断排名</p>
+          <p class="auxiliary-font" style="transform: scale(0.8333333333333334);margin: 1.0666666666666667vw 0;font-weight: normal;">综合诊断排名></p>
           <p style="margin: 1.0666666666666667vw 0;">
-              <span class="main-font" style="color:#1890FF;">2013</span>
-              <span class="main-font">/2578</span>
+              <span class="main-font" style="color:#597EF7;font-size: 6.4vw;">2013</span>
+              <span class="main-font" style="color:rgba(0,0,0,0.65);font-size: 6.4vw;">/2578</span>
           </p>
       </div>
   </div>
@@ -85,6 +85,9 @@
       }
     });
     chart.tooltip({
+      tooltipMarkerStyle: {
+        stroke: '#597EF7'
+      },
       custom: true,
       onChange(e) {
         const item = e.items[0];
@@ -115,19 +118,23 @@
       }
     });
     chart.area().position('name*value').style({
-      fillOpacity: 0.6
+      fillOpacity: 1,
+      fill: '#ADC6FF'
     }).animate({
       appear: {
         animation: 'groupWaveIn'
       }
     });
-    chart.line().position('name*value').animate({
+    chart.line().position('name*value').style({
+      stroke: '#597EF7'
+    }).animate({
       appear: {
         animation: 'groupWaveIn'
       }
     });
     chart.point().position('name*value').style({
       lineWidth: 1,
+      fill: '#597EF7',
       stroke: '#fff'
     }).animate({
       appear: {
@@ -138,8 +145,8 @@
     chart.guide().html({
       position: ['50%', '50%'],
       html: '<div style="color: #fff;white-space: nowrap;text-align:center;">'
-        + '<p style="font-size: 4.266666666666667vw;margin:0;">诊断分</p>'
-        + '<p style="font-size: 9vw;margin:0;font-weight: bold;">73</p>'
+        + '<p style="font-size: 4.266666666666667vw;margin:0;font-weight: 300;text-shadow: 0 0 2px rgba(0, 0, 0, 0.09);">综合评分</p>'
+        + '<p style="font-size: 9vw;margin:0;text-shadow: 0 0 2px rgba(0, 0, 0, 0.09);">78</p>'
         + '</div>'
     });
     chart.render();

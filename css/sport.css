@@ -1,82 +1,93 @@
-
 /*375 * 667*/
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  -moz-user-select:none;
-  -webkit-user-select:none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
-html, body {
+html,
+body {
   padding: 0;
   margin: 0;
   font-family: "Helvetica Neue", "San Francisco", Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif;
+  font-weight: 300;
 }
+
 ::-webkit-scrollbar {
   display: none;
 }
 
-html, body {
-    height: 100%;
-    background-color: #F2F2F2;
+html,
+body {
+  height: 100%;
+  background-color: #F2F2F2;
 }
+
 .bkg {
-    width: 100%;
-    height: 74.13333333333333vw;
+  position: relative;
+  width: 100vw;
+  height: 64.26666666666667vw;
+  background-image: url("https://gw.alipayobjects.com/zos/rmsportal/DnHPKuHjzrGUAgXKrAZO.png");
+  background-size: cover;
 }
+
 .avatar-container {
-    position: absolute;
-    left: 50%;
-    top: 64.799999999999995vw;
-    width: 18.666666666666667vw;
-    height: 18.666666666666667vw;
-    margin-left: -9.333333333333333vw;
-    border-radius: 9.333333333333333vw;
-    background-color: #fff;
-    text-align: center;
-    overflow: hidden;
+  position: absolute;
+  left: 50%;
+  width: 18.666666666666667vw;
+  height: 18.666666666666667vw;
+  margin-left: -9.333333333333333vw;
+  border-radius: 9.333333333333333vw;
+  background-color: #fff;
+  text-align: center;
+  overflow: hidden;
+  bottom: -9.333333333333334vw;
 }
+
 .avatar {
-    width:13.6vw;
-    height:13.6vw;
-    margin-top: 2.66666vw;
+  width: 13.6vw;
+  height: 13.6vw;
+  margin-top: 2.66666vw;
 }
+
 .chart-container {
-    position: relative;
-    margin: 13.066666666666666vw 2.4vw 0 2.4vw;
-    height: 53.86666666666667vw;
-    background-image: linear-gradient(135deg, #17BE81 0%, #1494a3 100%);
-    border-radius: 1.0666666666666667vw;
-    overflow: hidden;
+  position: relative;
+  margin: 12.8vw auto 0;
+  height: 53.86666666666667vw;
+  background-image: linear-gradient(-135deg, #874BFF 0%, #6854EE 43%, #6052F2 63%, #534FFA 100%);
+  border-radius: 1.0666666666666667vw;
+  overflow: hidden;
+  width: 94.93333333333334vw;
 }
 
 .chart-header {
-    height: 10.933333333333333vw;
-    margin: 0 3.2vw;
-    box-shadow: 0 1px 0 0 #77C0B3;
-    line-height: 10.933333333333333vw;
-    text-align: right;
-    color: #CFFFF2;
-    font-size: 6.133333333333333vw;
+  height: 10.933333333333333vw;
+  margin: 0 3.466666666666667vw;
+  box-shadow: 0 1px 0 0 #85A5FF;
+  line-height: 10.933333333333333vw;
+  text-align: left;
+  color: #ADC6FF;
+  font-size: 5.6vw;
 }
 
 canvas#mountNode {
-    display: block;
-    width: 100%;
-    height: 42.8vw;
+  display: block;
+  width: 100%;
+  height: 42.4vw;
 }
 
 .chart-tooltip {
-    position: absolute;
-    z-index: 99;
-    font-size: 3.2vw;
-    color: rgba(207, 254, 255, .8);
-    text-align: center;
-    top: 38vw;
-    left: 0;
-    margin-top: 3px;
-    visibility: hidden;
-    transition: visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1), top 0.4s cubic-bezier(0.23, 1, 0.32, 1)
+  position: absolute;
+  z-index: 99;
+  font-size: 3.2vw;
+  color: #ADC6FF;
+  text-align: center;
+  top: 38vw;
+  left: 0;
+  margin-top: 3px;
+  visibility: hidden;
+  transition: visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1), top 0.4s cubic-bezier(0.23, 1, 0.32, 1)
 }

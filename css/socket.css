@@ -1,15 +1,15 @@
-
 /*375 * 667*/
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  -moz-user-select:none;
-  -webkit-user-select:none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
-html, body {
+html,
+body {
   padding: 0;
   margin: 0;
   font-family: "Helvetica Neue", "San Francisco", Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif;
@@ -19,128 +19,128 @@ html, body {
   display: none;
 }
 
-html, body {
-    height: 100%;
-    background-color: #F4F6F9;
+html,
+body {
+  height: 100%;
+  background-color: #F4F6F9;
 }
 
 .auxiliary-font {
-    font-size: 3.2vw;
-    opacity: 0.65;
-    font-weight: 300;
+  font-size: 3.2vw;
+  opacity: 0.65;
+  font-weight: 300;
 }
 
 .main-font {
-    font-size: 7.2vw;
+  font-size: 7.2vw;
 }
 
 .flex {
-    display: flex;
+  display: flex;
 }
 
-.flex div{
-    width: 50%;
+.flex div {
+  width: 50%;
 }
 
 .status-container {
-    position: relative;
-    height: 42vw;
-    margin-top: 3.2vw;
-    padding: 3.2vw 4.266666666666667vw;
-    color: #fff;
-    background-color: #1890FF;
+  position: relative;
+  height: 42vw;
+  margin-top: 3.2vw;
+  padding: 3.2vw 4.266666666666667vw;
+  color: #fff;
+  background-image: linear-gradient(-132deg, #935EFF 0%, #6C57FF 64%, #625EFF 100%);
 }
 
 .cut-off-container {
-    position: absolute;
-    left: 4.266666666666667vw;
-    right: 4.266666666666667vw;
-    bottom: 0;
-    height: 9.6vw;
-    border-top: 1px solid #63ADF1;
+  position: absolute;
+  left: 4.266666666666667vw;
+  right: 4.266666666666667vw;
+  bottom: 0;
+  height: 9.6vw;
+  border-top: 1px solid #85A5FF;
 }
 
 .diagnose-container {
-    position:relative;
-    margin-top: 4vw;
-    background-color: #fff;
-    color: rgba(0,0,0,0.65);
-    height: 104vw;
+  position: relative;
+  margin-top: 4vw;
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.65);
+  height: 104vw;
 }
 
 .title-container {
-    height: 12vw;
-    line-height: 12vw;
-    padding-left: 4.266666666666667vw;
-    font-size: 4.266666666666667vw;
-    border-bottom: 1px solid #E8E8E8;
+  height: 12vw;
+  line-height: 12vw;
+  padding-left: 4.266666666666667vw;
+  font-size: 4.266666666666667vw;
+  border-bottom: 1px solid #E8E8E8;
 }
 
 .sum-container {
-    position:absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 20vw;
-    text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20vw;
+  text-align: center;
 }
 
 .chart-container {
-    position: relative;
+  position: relative;
 }
 
 canvas {
-    width: 100%;
-    height: 70.4vw;
+  width: 100%;
+  height: 70.4vw;
 }
 
 .chart-tooltip {
-    position: absolute;
-    z-index: 99;
-    background-color: rgba(233, 241, 255, 0.8);
-    border: 1px solid #1890ff;
-    padding: 1.3333333333333333vw 2.4vw;
-    border-radius: 0.5333333333333333vw;
-    text-align: center;
-    font-size: 3.2vw;
-    color: #2e2e2e;
-    text-align: left;
-    top: 0;
-    left: 0;
-    visibility: hidden;
-    max-width: 53.333333333333336vw;
+  position: absolute;
+  z-index: 99;
+  background-color: rgb(233, 241, 255);
+  border: 1px solid #597EF7;
+  padding: 1.3333333333333333vw 2.4vw;
+  border-radius: 0.5333333333333333vw;
+  text-align: center;
+  font-size: 3.2vw;
+  color: #2e2e2e;
+  text-align: left;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  max-width: 53.333333333333336vw;
 }
 
-.chart-tooltip:after, .chart-tooltip:before {
-    border: solid transparent;
-    content: ' ';
-    height: 0;
-    position: absolute;
-    width: 0;
-    top: 100%;
+.chart-tooltip:after,
+.chart-tooltip:before {
+  border: solid transparent;
+  content: ' ';
+  height: 0;
+  position: absolute;
+  width: 0;
+  top: 100%;
 }
 
 .chart-tooltip:before {
-    border-width: 7px;
-    border-top-color: #1890ff;
-    left: 50%;
-    margin-left: -7px;
-    margin-top: 1px;
+  border-width: 7px;
+  border-top-color: #597EF7;
+  left: 50%;
+  margin-left: -7px;
+  margin-top: 1px;
 }
 
 .chart-tooltip:after {
-    border-width: 7px;
-    border-top-color: #ECF3FE;
-    left: 50%;
-    margin-left: -7px;
+  border-width: 7px;
+  border-top-color: rgb(233, 241, 255);
+  left: 50%;
+  margin-left: -7px;
 }
 
 .chart-tooltip span {
-    display: block;
+  display: block;
 }
 
 .chart-tooltip span:nth-child(1) {
-    font-weight: bold;
+  font-weight: bold;
 }
-
-

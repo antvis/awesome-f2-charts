@@ -8,13 +8,18 @@
   <meta content="telephone=no,email=no" name="format-detection">
   <script src="https://gw.alipayobjects.com/os/antv/assets/f2/3.1.15/f2.min.js"></script>
   <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
-  <title>我的运动</title>
+  <title>运动</title>
   <link rel="stylesheet" href="./css/sport.css" />
 </head>
 <body>
-  <img class="bkg" src="https://gw.alipayobjects.com/zos/rmsportal/DnHPKuHjzrGUAgXKrAZO.png" alt="背景图片" />
-  <div class="avatar-container">
-    <img class="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/bjtEqXVNIqVCgqhpdHmm.png" alt="antv" />
+  <!-- <img class="bkg" src="https://gw.alipayobjects.com/zos/rmsportal/DnHPKuHjzrGUAgXKrAZO.png" alt="背景图片" /> -->
+
+  <div class="bkg">
+    <div class="avatar-container">
+      <a href="https://antv.alipay.com/zh-cn/f2/3.x/demo/index.html">
+        <img class="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/bjtEqXVNIqVCgqhpdHmm.png" alt="antv" />
+      </a>
+    </div>
   </div>
   <div class="chart-container">
     <div class="chart-header"></div>
@@ -64,7 +69,7 @@
     const ctx = canvas.getContext('2d');
     const grd = ctx.createLinearGradient(0, canvas.offsetHeight, 0, 0);
     grd.addColorStop(0.03, "rgba(216,216,216,0.10)");
-    grd.addColorStop(1, "#6CD8B7");
+    grd.addColorStop(1, "#6E6CD8");
 
     const chart = new F2.Chart({
       id: 'mountNode',
@@ -86,13 +91,14 @@
     });
     chart.axis('date', {
       line: {
-        stroke: '#75C2B4'
+        stroke: '#85A5FF'
       },
       label(text, index, total) {
         const cfg = {
           textAlign: 'center',
-          fill: '#5FD3C2',
-          fontSize: 12
+          fill: '#85A5FF',
+          fontSize: 12,
+          fontWeight: 300
         };
         if (index === 0) {
           cfg.textAlign = 'start';
@@ -103,20 +109,23 @@
 
         if (index === total - 1) {
           cfg.textAlign = 'end';
-          cfg.fill = '#B5FFFD';
+          cfg.fill = '#ADC6FF';
+          cfg.fontWeight = 'normal';
         }
 
         return cfg;
       }
-    })
+    });
     chart.axis('steps', {
       position: 'right',
       label: {
-        fill: '#71CDCD',
-        fontSize: 9
+        fill: '#CFFFFE',
+        fillOpacity: 0.5,
+        fontSize: 9,
+        fontWeight: 300
       },
       grid: {
-        stroke: '#77C0B3'
+        stroke: '#85A5FF'
       }
     });
     chart.tooltip({
@@ -153,8 +162,8 @@
       fill: grd,
       fillOpacity: 1
     });
-    chart.line().position('date*steps').color('#A0FFF8').size(1.5);
-    chart.point().position('date*steps').color('#8CFFF6').size(3);
+    chart.line().position('date*steps').color('#EFDBFF').size(1.5);
+    chart.point().position('date*steps').color('#EED5FF').size(2.5);
     chart.render();
   </script>
 </body>
