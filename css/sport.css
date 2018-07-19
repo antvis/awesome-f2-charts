@@ -89,5 +89,5 @@ canvas#mountNode {
   left: 0;
   margin-top: 3px;
   visibility: hidden;
-  transition: visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1), top 0.4s cubic-bezier(0.23, 1, 0.32, 1)
+  transition: top 0.4s cubic-bezier(0.23, 1, 0.32, 1)
 }
