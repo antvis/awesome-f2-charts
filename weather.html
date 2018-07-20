@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="yes" name="apple-touch-fullscreen">
+  <meta content="telephone=no,email=no" name="format-detection">
+  <title>F2 一周天气</title>
+  <link rel="stylesheet" href="./css/weather.css" />
+  <script src="https://gw.alipayobjects.com/os/antv/assets/f2/3.1.15/f2.min.js"></script>
+  <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+  <!-- idea fork from https://codepen.io/rozklad/pen/OOMGza -->
+  <div class="card">
+    <!-- Custom information -->
+    <div class="about">
+      <h3>F2</h3>
+      <p class="lead">Temperature in °C</p>
+    </div>
+
+    <!-- Canvas for F2 -->
+    <canvas id="myChart"></canvas>
+
+    <!-- Custom Axis -->
+    <div class="axis">
+      <div class="tick" ontouchstart="">
+        <span class="day-number">10</span>
+        <span class="day-name">MON</span>
+        <span class="value value--this">26°C</span>
+      </div>
+      <div class="tick" ontouchstart="">
+        <span class="day-number">11</span>
+        <span class="day-name">TUE</span>
+        <span class="value value--this">14°C</span>
+      </div>
+      <div class="tick" ontouchstart="">
+        <span class="day-number">12</span>
+        <span class="day-name">WED</span>
+        <span class="value value--this">22°C</span>
+      </div>
+      <div class="tick" ontouchstart="">
+        <span class="day-number">13</span>
+        <span class="day-name">THU</span>
+        <span class="value value--this">12°C</span>
+      </div>
+      <div class="tick" ontouchstart="">
+        <span class="day-number">14</span>
+        <span class="day-name">FRI</span>
+        <span class="value value--this">20°C</span>
+      </div>
+      <div class="tick" ontouchstart="">
+        <span class="day-number">15</span>
+        <span class="day-name">SAT</span>
+        <span class="value value--this">12°C</span>
+      </div>
+      <div class="tick" ontouchstart="">
+        <span class="day-number">16</span>
+        <span class="day-name">SUN</span>
+        <span class="value value--this">18°C</span>
+      </div>
+    </div>
+
+    <div class="tooltip hidden">
+      <div id="weekday">SUN</div>
+      <div id="tem">18°C</div>
+    </div>
+  </div>
+  <script>
+    const canvas = document.getElementById("myChart");
+    const tooltip = $('div.tooltip');
+    const tooltipWeekday =  $('#weekday');
+    const tooltipTem =  $('#tem');
+
+    const data = [
+      { weekday: 'SUN1', temperature: 18 },
+      { weekday: 'MON', temperature: 26 },
+      { weekday: 'TUE', temperature: 14 },
+      { weekday: 'WED', temperature: 22 },
+      { weekday: 'THU', temperature: 12 },
+      { weekday: 'FRI', temperature: 20 },
+      { weekday: 'SAT', temperature: 12 },
+      { weekday: 'SUN', temperature: 18 },
+      { weekday: 'MON1', temperature: 10 }
+    ];
+
+    const chart = new F2.Chart({
+      el: canvas,
+      padding:  [ 10, 0, 30 ],
+      pixelRatio: window.devicePixelRatio
+    });
+    const range = 1 / data.length;
+    chart.source(data, {
+      weekday: {
+        range: [ -range /2, 1 + range / 2 ]
+      }
+    });
+    chart.axis(false);
+    chart.tooltip({
+      custom: true,
+      tooltipMarkerStyle: {
+        radius: 10,
+        fill: 'rgba(255, 255, 255, 0.2)'
+      },
+      onChange(ev) {
+        const items = ev.items;
+        const item = items[0];
+        const canvasTop = $('#myChart').position().top;
+        tooltipWeekday.text(item.origin.weekday);
+        tooltipTem.text(item.origin.temperature + '°C');
+        tooltip.css({
+          top: item.y + canvasTop - 55,
+          left: item.x - 20
+        });
+        tooltip.removeClass('hidden');
+      },
+      onHide() {
+        tooltip.addClass('hidden');
+      }
+    });
+    chart.line().position('weekday*temperature').color('rgba(255, 255, 255, 0.2)').animate({
+      appear: {
+        animation: 'groupScaleInY'
+      }
+    });
+    chart.point().position('weekday*temperature')
+      .style({
+        fill: 'transparent',
+        stroke: '#fff',
+        lineWidth: 3,
+        r: 6
+      })
+      .animate({
+        appear: {
+          animation: 'groupScaleInY'
+        }
+      });
+    chart.render();
+  </script>
+</body>
+</html>
