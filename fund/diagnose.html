@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="yes" name="apple-touch-fullscreen">
+  <meta content="telephone=no,email=no" name="format-detection">
+  <title>基金诊断</title>
+  <link rel="stylesheet" href="../css/fund.css" />
+  <style>
+  .chart-tooltip {
+    position: absolute;
+    z-index: 99;
+    background-color: rgb(233, 241, 255);
+    border: 1px solid #597EF7;
+    padding: 1.3333333333333333vw 2.4vw;
+    border-radius: 0.5333333333333333vw;
+    text-align: center;
+    font-size: 3.2vw;
+    color: #2e2e2e;
+    text-align: left;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    max-width: 53.333333333333336vw;
+  }
+
+  .chart-tooltip:after,
+  .chart-tooltip:before {
+    border: solid transparent;
+    content: ' ';
+    height: 0;
+    position: absolute;
+    width: 0;
+    top: 100%;
+  }
+
+  .chart-tooltip:before {
+    border-width: 1.8667vw;
+    border-top-color: #597EF7;
+    left: 50%;
+    margin-left: -1.8667vw;
+    margin-top: 1px;
+  }
+
+  .chart-tooltip:after {
+    border-width: 1.8667vw;
+    border-top-color: rgb(233, 241, 255);
+    left: 50%;
+    margin-left: -1.8667vw;
+  }
+
+  .chart-tooltip span {
+    display: block;
+  }
+
+  .chart-tooltip span:nth-child(1) {
+    font-weight: bold;
+  }
+  </style>
+  <script src="https://gw.alipayobjects.com/os/rmsportal/wQHhHhIzbFTGwwyBFgdC.js"></script>
+  <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+  <div class="status-container">
+      <p style="line-height: 1;margin: 2.4vw 0 3.2vw;">
+          <span style="font-size: 4.8vw;">xx 行业基金名称</span>
+          <span style="font-size: 3.066666666666667vw;font-weight: 300;padding-left: 1.7333333333333334vw;">001938</span>
+      </p>
+      <div class="flex" style="margin-bottom: 1.0666666666666667vw">
+          <div class="auxiliary-font">最近净值(04-18)</div>
+          <div class="auxiliary-font">日涨幅</div>
+      </div>
+      <div class="flex" style="margin-bottom: 4vw">
+          <div class="main-font">1.2380</div>
+          <div class="main-font">2.98%</div>
+      </div>
+      <div class="cut-off-container flex">
+          <div class="auxiliary-font" style="line-height: 9.6vw;">
+          <span class="border-font">高风险</span>
+          <span class="border-font">混合型</span>
+          </div>
+          <div class="auxiliary-font right-part" style="line-height: 9.6vw;">
+            晨星评级：<img src="https://gw.alipayobjects.com/zos/rmsportal/OEWzqwWkJCXaEVIbxowA.png" style="width:50%;">
+          </div>
+      </div>
+  </div>
+  <div class="diagnose-container">
+      <div class="title-container">
+        基金诊断<img src="https://gw.alipayobjects.com/zos/rmsportal/TDVdSYoxhzcmVyxyhhwm.png" style="display: inline-block;width: 3.2vw;height: 3.2vw;margin-left: 1.0666666666666667vw;">
+      </div>
+      <div id="chart-container">
+        <canvas id="mountNode"></canvas>
+        <!-- 自定义 tooltip -->
+        <div class="chart-tooltip">
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div class="sum-container">
+          <p class="auxiliary-font" style="transform: scale(0.8333333333333334);margin: 1.0666666666666667vw 0;font-weight: normal;">综合诊断排名></p>
+          <p style="margin: 1.0666666666666667vw 0;">
+              <span class="main-font" style="color:#597EF7;font-size: 6.4vw;">2013</span>
+              <span class="main-font" style="color:rgba(0,0,0,0.65);font-size: 6.4vw;">/2578</span>
+          </p>
+      </div>
+  </div>
+  <!-- 时间切换 按钮 -->
+  <div class="tab">
+    <button class="time-button button-25 active" id="oneMonth">近 1 月</button>
+    <button class="time-button button-25" id="threeMonth">近 3 月</button>
+    <button class="time-button button-25" id="sixMonth">近 6 月</button>
+    <button class="time-button button-25" id="oneYear">近 1 年</button>
+  </div>
+
+  <script>
+    var dataList = {
+      oneMonth: [
+        { name: '超大盘能力', value: 6.5, illustrate: '超大盘能力值越高表示相对于参考指数表现越好' },
+        { name: '抗跌能力', value: 9.5, illustrate: '股市下跌，净值下跌幅度越小，分值越高' },
+        { name: '稳定能力', value: 9, illustrate: '分支越高稳定性越强' },
+        { name: '绝对收益能力', value: 6, illustrate: '分值越高绝对收益能力越强' },
+        { name: '选证择时能力', value: 6, illustrate: '分值越高选证择时能力越强' },
+        { name: '风险回报能力', value: 8, illustrate: '分值越高风险回报能力越强' }
+      ],
+      threeMonth: [
+        { name: '超大盘能力', value: 8.5, illustrate: '超大盘能力值越高表示相对于参考指数表现越好' },
+        { name: '抗跌能力', value: 8, illustrate: '股市下跌，净值下跌幅度越小，分值越高' },
+        { name: '稳定能力', value: 10, illustrate: '分支越高稳定性越强' },
+        { name: '绝对收益能力', value: 5.8, illustrate: '分值越高绝对收益能力越强' },
+        { name: '选证择时能力', value: 6, illustrate: '分值越高选证择时能力越强' },
+        { name: '风险回报能力', value: 7.5, illustrate: '分值越高风险回报能力越强' }
+      ],
+      sixMonth: [
+        { name: '超大盘能力', value: 6, illustrate: '超大盘能力值越高表示相对于参考指数表现越好' },
+        { name: '抗跌能力', value: 10, illustrate: '股市下跌，净值下跌幅度越小，分值越高' },
+        { name: '稳定能力', value: 5, illustrate: '分支越高稳定性越强' },
+        { name: '绝对收益能力', value: 7.9, illustrate: '分值越高绝对收益能力越强' },
+        { name: '选证择时能力', value: 5, illustrate: '分值越高选证择时能力越强' },
+        { name: '风险回报能力', value: 8, illustrate: '分值越高风险回报能力越强' }
+      ],
+      oneYear: [
+        { name: '超大盘能力', value: 8.5, illustrate: '超大盘能力值越高表示相对于参考指数表现越好' },
+        { name: '抗跌能力', value: 9, illustrate: '股市下跌，净值下跌幅度越小，分值越高' },
+        { name: '稳定能力', value: 9, illustrate: '分支越高稳定性越强' },
+        { name: '绝对收益能力', value: 8, illustrate: '分值越高绝对收益能力越强' },
+        { name: '选证择时能力', value: 8, illustrate: '分值越高选证择时能力越强' },
+        { name: '风险回报能力', value: 10, illustrate: '分值越高风险回报能力越强' }
+      ]
+    };
+    var scoreList = {
+      oneMonth: 78,
+      threeMonth: 73,
+      sixMonth: 64,
+      oneYear: 61
+    };
+
+    var chart = new F2.Chart({
+      id: 'mountNode',
+      pixelRatio: window.devicePixelRatio
+    });
+    chart.source(dataList.oneMonth, {
+      value: {
+        min: 0,
+        max: 10,
+        tickCount: 4
+      }
+    });
+    chart.coord('polar');
+    chart.axis('value', {
+      label: null,
+      grid: function(text, index) {
+        if (index === 3) {
+          return {
+            lineDash: null
+          };
+        }
+      }
+    });
+    chart.tooltip({
+      tooltipMarkerStyle: {
+        stroke: '#597EF7'
+      },
+      custom: true,
+      onChange: function(e) {
+        var item = e.items[0];
+        var origin = item.origin;
+        var tooltipEl = $('.chart-tooltip');
+        tooltipEl.html(
+          '<span>' + origin.name + ': ' + origin.value + '</span>' +
+          '<span>' + origin.illustrate + '</span>'
+        );
+
+        // 设置 tooltip 位置
+        var canvasOffsetTop = $('#mountNode').position().top;
+        var canvasOffsetLeft = $('#mountNode').position().left;
+        var tooltipWidth = tooltipEl.outerWidth();
+        var tooltipHeight = tooltipEl.outerHeight();
+
+        tooltipEl.css({
+          visibility: 'visible',
+          left: canvasOffsetLeft + item.x - tooltipWidth / 2,
+          top: canvasOffsetTop + item.y - tooltipHeight - 15
+        });
+      },
+      onHide: function() {
+        var tooltipEl = $('.chart-tooltip');
+        tooltipEl.css({
+          visibility: 'hidden'
+        });
+      }
+    });
+    chart.area().position('name*value').style({
+      fillOpacity: 1,
+      fill: '#ADC6FF'
+    }).animate({
+      appear: {
+        animation: 'groupWaveIn'
+      }
+    });
+    chart.line().position('name*value').style({
+      stroke: '#597EF7'
+    }).animate({
+      appear: {
+        animation: 'groupWaveIn'
+      }
+    });
+    chart.point().position('name*value').style({
+      lineWidth: 1,
+      fill: '#597EF7',
+      stroke: '#fff'
+    }).animate({
+      appear: {
+        delay: 300
+      }
+    });
+
+    chart.guide().html({
+      position: ['50%', '50%'],
+      html: '<div style="color: #fff;white-space: nowrap;text-align:center;">'
+        + '<p style="font-size: 4.266666666666667vw;margin:0;font-weight: 300;text-shadow: 0 0 2px rgba(0, 0, 0, 0.09);">综合评分</p>'
+        + '<p style="font-size: 9vw;margin:0;text-shadow: 0 0 2px rgba(0, 0, 0, 0.09);">' + scoreList.oneMonth + '</p>'
+        + '</div>'
+    });
+    chart.render();
+
+    // 切换按钮，更新数据
+    $('.tab button').click(function(e) {
+      var target = $(e.target);
+      var id = target.attr('id');
+      if (target.hasClass('active')) {
+        return;
+      }
+
+      var currentActive = $('.tab').find('button.active');
+      currentActive.removeClass('active');
+      target.addClass('active');
+
+      var newData = dataList[id];
+      var score = scoreList[id];
+
+      chart.guide().clear();
+      chart.guide().html({
+        position: ['50%', '50%'],
+        html: '<div style="color: #fff;white-space: nowrap;text-align:center;">'
+          + '<p style="font-size: 4.266666666666667vw;margin:0;font-weight: 300;text-shadow: 0 0 2px rgba(0, 0, 0, 0.09);">综合评分</p>'
+          + '<p style="font-size: 9vw;margin:0;text-shadow: 0 0 2px rgba(0, 0, 0, 0.09);">' + score + '</p>'
+          + '</div>'
+      });
+      chart.changeData(newData);
+    });
+  </script>
+</body>
+</html>

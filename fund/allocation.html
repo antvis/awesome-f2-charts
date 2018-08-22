@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="yes" name="apple-touch-fullscreen">
+  <meta content="telephone=no,email=no" name="format-detection">
+  <title>基金资产配置</title>
+  <link rel="stylesheet" href="../css/fund.css" />
+  <style>
+    canvas#pieChart {
+      height: 57.33vw;
+    }
+    canvas#barChart {
+      height: 74.67vw;
+    }
+  </style>
+  <script src="https://gw.alipayobjects.com/os/rmsportal/wQHhHhIzbFTGwwyBFgdC.js"></script>
+  <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+  <div class="chart-card">
+    <div class="chart-card-title">
+      资产配置
+      <span style="font-size: 12px;color: rgba(0,0,0,0.45)">(2018-03-31 更新)</span>
+    </div>
+    <div class="chart-wrapper">
+      <canvas id="pieChart"></canvas>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">股票名称</th>
+        <th scope="col">资产占比</th>
+        <th scope="col">实时涨跌</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>xx 企业名</td>
+        <td>3.8923</td>
+        <td class="red">+3.89%</td>
+      </tr>
+      <tr>
+        <td>xxx 企业名</td>
+        <td>3.8323</td>
+        <td class="green">-2.89%</td>
+      </tr>
+      <tr>
+        <td>xx 电器</td>
+        <td>3.3923</td>
+        <td class="red">+3.49%</td>
+      </tr>
+      <tr>
+        <td>xx 集团</td>
+        <td>3.8923</td>
+        <td class="red">+1.89%</td>
+      </tr>
+      <tr>
+        <td>xx 老窖</td>
+        <td>3.8923</td>
+        <td class="red">+1.89%</td>
+      </tr>
+      <tr>
+        <td>xx 制造</td>
+        <td>1.8923</td>
+        <td class="green">-1.89%</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="container-fluid chart-card">
+    <div class="chart-card-title">
+      行业配置
+      <span style="font-size: 12px;color: rgba(0,0,0,0.45)">(2018-03-31 更新)</span>
+    </div>
+    <div class="chart-wrapper">
+      <canvas id="barChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    // 绘制饼图
+    function drawPieChart() {
+      var data = [
+        { name: '股票', percent: 38.78, const: '1' },
+        { name: '债券', percent: 24.93, const: '1' },
+        { name: '现金', percent: 6.05, const: '1' },
+        { name: '其他', percent: 30.24, const: '1' }
+      ];
+
+      var colorMap = {
+        '股票': '#1890FF',
+        '债券': '#2FC25B',
+        '现金': '#FACC14',
+        '其他': '#F04864'
+      };
+      // 设置图例项的内容
+      var legendItems = [];
+      F2.Util.each(data, function(obj) {
+        var item = {
+          name: obj.name,
+          value: obj.percent + '%',
+          marker: {
+            symbol: 'circle',
+            fill: colorMap[obj.name],
+            radius: 4
+          }
+        };
+        legendItems.push(item);
+      });
+
+      var chart = new F2.Chart({
+        id: 'pieChart',
+        pixelRatio: window.devicePixelRatio,
+        padding: [ 0, 'auto', 0, 0 ]
+      });
+      chart.source(data, {
+        percent: {
+          formatter: function(val) {
+            return val + '%';
+          }
+        }
+      });
+      chart.tooltip(false);
+      chart.legend({
+        custom: true,
+        position: 'right',
+        offsetX: -15,
+        items: legendItems,
+        nameStyle: {
+          fill: 'rgba(0, 0, 0, 0.45)'
+        },
+        valueStyle: {
+          fill: 'rgba(0, 0, 0, 0.85)'
+        }
+      });
+      chart.coord('polar', {
+        transposed: true,
+        innerRadius: 0.6,
+        radius: 0.75
+      });
+      chart.axis(false);
+      chart.interval()
+        .position('const*percent')
+        .color('name', function(val) {
+          return colorMap[val];
+        })
+        .style({
+          lineWidth: 1,
+          stroke: '#fff',
+          fillOpacity: 0.85
+        })
+        .animate({
+          appear: {
+            duration: 800
+          }
+        })
+        .adjust('stack');
+
+      chart.interaction('pie-select', {
+        animate: {
+          duration: 300,
+          easing: 'backOut'
+        },
+        style: {
+          fillOpacity: 0.35
+        },
+        onEnd: function(ev) {
+          var shape = ev.shape;
+          var data = ev.data;
+          var shapeInfo = ev.shapeInfo;
+          var selected = ev.selected;
+          if (shapeInfo && selected) {
+            $('#number').text((1.3308 * data.percent).toFixed(2) + '亿');
+            $('#name').text(data.name);
+          } else {
+            $('#number').text('133.08亿');
+            $('#name').text('总资产');
+          }
+        }
+      });
+
+      chart.guide().html({
+        position: [ '50%', '50%' ],
+        html: '<div style="width: 23.5vw;text-align: center;">'
+          + '<p id="number" style="font-size: 5.3333vw;font-weight: bold;color:rgba(0, 0, 0, .85);margin:0;">133.08亿</p>'
+          + '<p id="name" style="font-size: 3.2vw;color:rgba(0, 0, 0, .45);margin:0;"> 总资产 </p>'
+          + '</div>'
+      });
+      chart.render();
+    }
+    // 绘制条形图
+    function drawBarChart() {
+      var data = [
+        { name: '制造业', percent: 28.85, const: 100 },
+        { name: '交通运输、仓储和邮政业', percent: 4.43, const: 100 },
+        { name: '批发和零售业', percent: 2.93, const: 100 },
+        { name: '电力、热力、燃气及水生产和供应业', percent: 2.90, const: 100 },
+        { name: '文化、体育和娱乐业', percent: 0.00, const: 100 },
+      ];
+
+      var chart = new F2.Chart({
+        id: 'barChart',
+        pixelRatio: window.devicePixelRatio
+      });
+      chart.source(data.reverse(), {
+        percent: {
+          min: 0,
+          max: 100,
+          nice: false
+        }
+      });
+      chart.coord({
+        transposed: true
+      });
+      chart.axis(false);
+      chart.tooltip(false);
+      chart.interval().position('name*const').color('#eee').size(10).animate(false); // 绘制背景条
+      chart.interval().position('name*percent').size(10).animate({
+        appear: {
+          duration: 1000
+        }
+      });
+
+      // 绘制文本
+      F2.Util.each(data, function(obj) {
+        chart.guide().text({
+          position: [obj.name, 'min'],
+          content: obj.name,
+          style: {
+            textAlign: 'start',
+            textBaseline: 'bottom'
+          },
+          offsetY: -8
+        });
+        chart.guide().text({
+          position: [obj.name, 'max'],
+          content: obj.percent.toFixed(2)+ '%',
+          style: {
+            textAlign: 'end',
+            textBaseline: 'bottom'
+          },
+          offsetY: -8
+        });
+      });
+      chart.render();
+    }
+
+    drawPieChart();
+    drawBarChart();
+  </script>
+</body>
+</html>

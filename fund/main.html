@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="yes" name="apple-touch-fullscreen">
+  <meta content="telephone=no,email=no" name="format-detection">
+  <title>基金详情</title>
+  <link rel="stylesheet" href="../css/fund.css" />
+  <style>
+    .landscape-icon {
+      background-image: url(../image/landscape.png);
+      background-size: contain;
+      width: 5.867vw;
+      height: 5.867vw;
+      position: absolute;
+      top: 15.2vw;
+      right: 0;
+    }
+  </style>
+  <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+  <div class="status-container">
+    <p style="line-height: 1;margin: 2.4vw 0 3.2vw;">
+      <span style="font-size: 4.8vw;">xx 行业基金名称</span>
+      <span style="font-size: 3.066666666666667vw;font-weight: 300;padding-left: 1.7333333333333334vw;">001938</span>
+    </p>
+    <div class="flex" style="margin-bottom: 1.0666666666666667vw">
+      <div class="auxiliary-font">最近净值(04-18)</div>
+      <div class="auxiliary-font">日涨幅</div>
+    </div>
+    <div class="flex" style="margin-bottom: 4vw">
+      <div class="main-font">1.2380</div>
+      <div class="main-font">2.98%</div>
+    </div>
+    <div class="cut-off-container flex">
+      <div class="auxiliary-font" style="line-height: 9.6vw;">
+        <span class="border-font">高风险</span>
+        <span class="border-font">混合型</span>
+      </div>
+      <div class="auxiliary-font right-part" style="line-height: 9.6vw;">
+        晨星评级：<img src="https://gw.alipayobjects.com/zos/rmsportal/OEWzqwWkJCXaEVIbxowA.png" style="width:50%;">
+      </div>
+    </div>
+  </div>
+
+  <!-- 时间切换 按钮 -->
+  <div class="tab" id="sceneSwitch" style="box-shadow: none;">
+    <button class="item-button button-25 active" id="trend">业绩走势</button>
+    <button class="item-button button-25" id="evaluation">净值估算</button>
+    <button class="item-button button-25" id="anav" ">单位净值</button>
+    <button class="item-button button-25 " id="cnav">累计净值</button>
+  </div>
+  <div class="chart-container">
+    <a class="landscape" target="_blank" href="./trend-landscape.html?__webview_options__=enableWK%3DYES%26fullscreen%3DYES%26landscape%3Dlandscape%26canPullDown%3DNO%26landscapeOrientation%3Dleft">
+      <div class="landscape-icon"></div>
+    </a>
+    <iframe class="chart-iframe" id="chart" src="./trend.html" frameborder="0"></iframe>
+  </div>
+
+  <div class="tab" style="box-shadow: none;">
+    <button class="item-button button-50 active">历史业绩</button>
+    <button class="item-button button-50">历史净值</button>
+  </div>
+  <table class="table" style="margin-bottom: 18vw;">
+    <thead>
+      <tr>
+        <th scope="col">时间区间</th>
+        <th scope="col">涨跌幅</th>
+        <th scope="col">同类排名</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>近一周</td>
+        <td class="green">-0.96%</td>
+        <td>1383/3078</td>
+      </tr>
+      <tr>
+        <td>近一月</td>
+        <td class="green">-4.82%</td>
+        <td>1808/3039</td>
+      </tr>
+      <tr>
+        <td>近三月</td>
+        <td class="green">-7.45%</td>
+        <td>1322/2930</td>
+      </tr>
+      <tr>
+        <td>近六月</td>
+        <td class="green">-2.45%</td>
+        <td>1033/2784</td>
+      </tr>
+      <tr>
+        <td colspan="3" style="text-align: center;color: #1890FF">查看更多</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <div class="bar">开放买入 开放卖出（买入费率 <s>1.06%</s> 0.00%）</div>
+    <div class="tab button-group">
+      <button class="item-button" style="width: 14.67vw;height: 13.33333vw;border-right: 1px solid #E8E8E8;font-size: 2.67vw">
+        <img src="../image/png1.png" style="width:4.8vw;height: 4.533vw;;display: block;margin: auto;margin-bottom: 0.8vw;">
+        讨论区
+      </button>
+      <button class="item-button" style="width: 14.67vw;height: 13.33333vw;border-right: 1px solid #E8E8E8;font-size: 2.67vw">
+        <img src="../image/png2.png" style="width:4.8vw;display: block;margin: auto;margin-bottom: 0.8vw;">
+        财富号
+      </button>
+      <button class="item-button" style="width: 14.67vw;height: 13.33333vw;border-right: 1px solid #E8E8E8;font-size: 2.67vw">
+        <img src="../image/png3.png" style="width:4.8vw;display: block;margin: auto;margin-bottom: 0.8vw;">
+
+        加自选
+      </button>
+      <button class="item-button" style="width: 28vw;height: 13.33333vw;background: #fff;color:#1890ff;font-size: 4.55555333vw">定投</button>
+      <button class="item-button" style="width: 28vw;height: 13.33333vw;background: #2772FF;color:#fff;font-size: 4.55555333vw">买入</button>
+    </div>
+  </div>
+
+
+  <script>
+    // 切换按钮，更新数据
+    var iFrame = $('#chart');
+    $('#sceneSwitch .item-button').click(function(e) {
+      var target = $(e.target);
+      var id = target.attr('id');
+      if (target.hasClass('active')) {
+        return;
+      }
+
+      var currentActive = $('#sceneSwitch').find('button.active');
+      currentActive.removeClass('active');
+      target.addClass('active');
+
+      if (id !== 'evaluation') {
+        $('.landscape').attr('href', './' + id + '-landscape.html?__webview_options__=enableWK%3DYES%26fullscreen%3DYES%26landscape%3Dlandscape%26canPullDown%3DNO%26landscapeOrientation%3Dleft');
+        $('.landscape').removeClass('hidden');
+      } else {
+        $('.landscape').addClass('hidden');
+      }
+
+      iFrame.attr('src', './' + id + '.html')
+    });
+
+  </script>
+</body>
+
+</html>
