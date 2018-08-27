@@ -57,7 +57,6 @@ body {
   width: auto;
   border: 1px solid rgba(255,255,255,.45);
   border-radius: 2px;
-  /* height: 4.266667vw; */
   line-height: 4.266667vw;
   padding: 0 2px;
 }
@@ -89,7 +88,7 @@ body {
   right: 4.266666666666667vw;
   bottom: 0;
   height: 9.6vw;
-  border-top: 1px solid #85A5FF;
+  border-top: 1px solid rgba(133, 165, 255, 0.5);
 }
 
 .diagnose-container {
@@ -276,11 +275,11 @@ canvas {
     }
 
     th {
-      border-top: 1px solid rgba(0, 0, 0, .09);
+      border-top: 1px solid #e8e8e8;
     }
 
     td, th {
-      border-bottom: 1px solid rgba(0, 0, 0, .09);
+      border-bottom: 1px solid #e8e8e8;
     }
 
 

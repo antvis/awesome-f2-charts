@@ -162,12 +162,12 @@
 
       function drawChart(data, color, id) {
         var lastInfo = data[data.length - 1];
-        var tagColor;
-        if (lastInfo.value >= 0) {
-          tagColor = '#F5222D';
-        } else {
-          tagColor = '#53BC20';
-        }
+        // var tagColor;
+        // if (lastInfo.value >= 0) {
+        //   tagColor = '#F5222D';
+        // } else {
+        //   tagColor = '#53BC20';
+        // }
         var chart = new F2.Chart({
           id,
           pixelRatio: window.devicePixelRatio,
@@ -260,10 +260,10 @@
 
         chart.guide().tag({
           position: [lastInfo.date, lastInfo.value],
-          content: lastInfo.value,
+          content: lastInfo.value > 0 ? '+' + lastInfo.value : lastInfo.value,
           background: {
             padding: [2, 3],
-            fill: tagColor // tag 背景色
+            fill: color // tag 背景色
           },
           textStyle: {
             fontSize: 10,
@@ -271,7 +271,7 @@
           },
           offsetY: -5,
           pointStyle: {
-            fill: tagColor
+            fill: color
           }
         });
         chart.line({

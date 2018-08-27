@@ -224,6 +224,20 @@
       }, animateCfg));
     });
 
+    var rankTickMap = {
+      'one-month': {
+        ticks: [ 1, 5, 10, 15, 20 ]
+      },
+      'three-month': {
+        ticks: [ 1, 100, 200, 300, 400 ]
+      },
+      'six-month': {
+        ticks: [ 1, 600, 1200, 1800, 2400 ]
+      },
+      'one-year': {
+        ticks: [ 1, 800, 1600, 2400, 3200]
+      }
+    };
     var chart = new Chart({
       id: 'mountNode',
       pixelRatio: window.devicePixelRatio,
@@ -238,8 +252,7 @@
           tickCount: 3,
           range: [0, 1]
         },
-        rank: {
-          minTickInterval: 4,
+        rank: Util.mix({
           scale: function(value) {
             if (value === null || value === undefined) {
               return NaN;
@@ -255,7 +268,7 @@
             var rangeMax = this.rangeMax();
             return 1 - (rangeMin + percent * (rangeMax - rangeMin));
           }
-        }
+        }, rankTickMap['one-month'])
       });
 
       chart.axis('date', {
@@ -274,6 +287,24 @@
             cfg.text = arr[1] + '-' + arr[2];
           }
           return cfg;
+        }
+      });
+      chart.axis('rank', {
+        grid: function(text, index, total) {
+          if (text === '1') {
+            return {
+              lineDash: null,
+              stroke: '#D8D8D8'
+            }
+          }
+        },
+        label: function(text, index, total) {
+          if (text === '1') {
+            return {
+              fill: '#252525'
+            }
+          }
+          return {};
         }
       });
 
@@ -326,8 +357,7 @@
       var url = `./data/rank/${id}.json`;
       $.getJSON(url, function(json) {
         if (id === 'one-month') {
-          chart.scale('rank', {
-            minTickInterval: 4,
+          chart.scale('rank', Util.mix({
             scale: function (value) {
               if (value === null || value === undefined) {
                 return NaN;
@@ -343,10 +373,9 @@
               var rangeMax = this.rangeMax();
               return 1 - (rangeMin + percent * (rangeMax - rangeMin));
             }
-          });
+          }, rankTickMap['one-month']));
         } else {
-          chart.scale('rank', {
-            tickCount: 5,
+          chart.scale('rank', Util.mix({
             scale: function (value) {
               if (value === null || value === undefined) {
                 return NaN;
@@ -362,7 +391,7 @@
               var rangeMax = this.rangeMax();
               return 1 - (rangeMin + percent * (rangeMax - rangeMin));
             }
-          });
+          }, rankTickMap[id]));
         }
         chart.changeData(json);
       });
