@@ -46,6 +46,9 @@
         晨星评级：<img src="https://gw.alipayobjects.com/zos/rmsportal/OEWzqwWkJCXaEVIbxowA.png" style="width:50%;">
       </div>
     </div>
+    <div class="diagnose">
+      <a href="./diagnose.html" target="_blank">基金诊断</a>
+    </div>
   </div>
 
   <!-- 时间切换 按钮 -->
@@ -62,44 +65,70 @@
     <iframe class="chart-iframe" id="chart" src="./trend.html" frameborder="0"></iframe>
   </div>
 
-  <div class="tab" style="box-shadow: none;">
-    <button class="item-button button-50 active">历史业绩</button>
-    <button class="item-button button-50">历史净值</button>
+  <div class="list-container">
+    <a href="./allocation.html" target="_blank">
+      <div class="flex-list">
+        <div>持仓占比</div>
+        <div class="redirect-arrow">
+          <img src="../image/arrow.png" alt="" />
+        </div>
+      </div>
+    </a>
+    <a href="./rank.html" target="_blank">
+      <div class="flex-list">
+        <div>基金同类排名</div>
+        <div class="redirect-arrow">
+          <img src="../image/arrow.png" alt="" />
+        </div>
+      </div>
+    </a>
+    <div class="flex-list">
+      <div>基金经理</div>
+      <div style="text-align: right;">张三、李四</div>
+      <div class="redirect-arrow">
+        <img src="../image/arrow.png" alt="" />
+      </div>
+    </div>
   </div>
-  <table class="table" style="margin-bottom: 18vw;">
-    <thead>
-      <tr>
-        <th scope="col">时间区间</th>
-        <th scope="col">涨跌幅</th>
-        <th scope="col">同类排名</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>近一周</td>
-        <td class="green">-0.96%</td>
-        <td>1383/3078</td>
-      </tr>
-      <tr>
-        <td>近一月</td>
-        <td class="green">-4.82%</td>
-        <td>1808/3039</td>
-      </tr>
-      <tr>
-        <td>近三月</td>
-        <td class="green">-7.45%</td>
-        <td>1322/2930</td>
-      </tr>
-      <tr>
-        <td>近六月</td>
-        <td class="green">-2.45%</td>
-        <td>1033/2784</td>
-      </tr>
-      <tr>
-        <td colspan="3" style="text-align: center;color: #1890FF">查看更多</td>
-      </tr>
-    </tbody>
-  </table>
+
+  <div class="tab" style="box-shadow: none;">
+      <button class="item-button button-50 active">历史业绩</button>
+      <button class="item-button button-50">历史净值</button>
+    </div>
+    <table class="table" style="margin-bottom: 18vw;">
+      <thead>
+        <tr>
+          <th scope="col">时间区间</th>
+          <th scope="col">涨跌幅</th>
+          <th scope="col">同类排名</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>近一周</td>
+          <td class="green">-0.96%</td>
+          <td>1383/3078</td>
+        </tr>
+        <tr>
+          <td>近一月</td>
+          <td class="green">-4.82%</td>
+          <td>1808/3039</td>
+        </tr>
+        <tr>
+          <td>近三月</td>
+          <td class="green">-7.45%</td>
+          <td>1322/2930</td>
+        </tr>
+        <tr>
+          <td>近六月</td>
+          <td class="green">-2.45%</td>
+          <td>1033/2784</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align: center;color: #1890FF">查看更多</td>
+        </tr>
+      </tbody>
+    </table>
 
   <div class="footer">
     <div class="bar">开放买入 开放卖出（买入费率 <s>1.06%</s> 0.00%）</div>
@@ -121,7 +150,6 @@
       <button class="item-button" style="width: 28vw;height: 13.33333vw;background: #2772FF;color:#fff;font-size: 4.55555333vw">买入</button>
     </div>
   </div>
-
 
   <script>
     // 切换按钮，更新数据

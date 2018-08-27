@@ -10,14 +10,14 @@
   <title>基金详情-1</title>
   <link rel="stylesheet" href="../css/fund.css" />
   <style>
-    .landscape-icon {
-      background-image: url(../image/landscape.png);
+    .vertical-icon {
+      background-image: url(../image/vertical.png);
       background-size: contain;
       width: 5.867vw;
       height: 5.867vw;
       position: absolute;
-      top: 15.2vw;
-      right: 0;
+      top: 16.2vw;
+      right: 4vw;
     }
   </style>
   <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
@@ -46,6 +46,9 @@
         晨星评级：<img src="https://gw.alipayobjects.com/zos/rmsportal/OEWzqwWkJCXaEVIbxowA.png" style="width:50%;">
       </div>
     </div>
+    <div class="diagnose">
+      <a href="./diagnose.html" target="_blank">基金诊断</a>
+    </div>
   </div>
 
   <!-- 时间切换 按钮 -->
@@ -55,9 +58,35 @@
   </div>
   <div class="chart-container">
     <a class="landscape" target="_blank" href="./trend-no-deal-landscape.html?__webview_options__=enableWK%3DYES%26fullscreen%3DYES%26landscape%3Dlandscape%26canPullDown%3DNO%26landscapeOrientation%3Dleft">
-      <div class="landscape-icon"></div>
+      <div class="vertical-icon"></div>
     </a>
     <iframe class="chart-iframe" id="chart" src="./trend-no-deal.html" frameborder="0"></iframe>
+  </div>
+
+  <div class="list-container">
+    <a href="./allocation.html" target="_blank">
+      <div class="flex-list">
+        <div>持仓占比</div>
+        <div class="redirect-arrow">
+          <img src="../image/arrow.png" alt="" />
+        </div>
+      </div>
+    </a>
+    <a href="./rank.html" target="_blank">
+      <div class="flex-list">
+        <div>基金同类排名</div>
+        <div class="redirect-arrow">
+          <img src="../image/arrow.png" alt="" />
+        </div>
+      </div>
+    </a>
+    <div class="flex-list">
+      <div>基金经理</div>
+      <div style="text-align: right;">张三、李四</div>
+      <div class="redirect-arrow">
+        <img src="../image/arrow.png" alt="" />
+      </div>
+    </div>
   </div>
 
   <div class="tab" style="box-shadow: none;">
