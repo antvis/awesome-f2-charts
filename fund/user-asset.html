@@ -162,12 +162,12 @@
 
       function drawChart(data, color, id) {
         var lastInfo = data[data.length - 1];
-        // var tagColor;
-        // if (lastInfo.value >= 0) {
-        //   tagColor = '#F5222D';
-        // } else {
-        //   tagColor = '#53BC20';
-        // }
+        var tagColor;
+        if (lastInfo.value >= 0) {
+          tagColor = '#F5222D';
+        } else {
+          tagColor = '#53BC20';
+        }
         var chart = new F2.Chart({
           id,
           pixelRatio: window.devicePixelRatio,
@@ -263,7 +263,7 @@
           content: lastInfo.value > 0 ? '+' + lastInfo.value : lastInfo.value,
           background: {
             padding: [2, 3],
-            fill: color // tag 背景色
+            fill: color || tagColor // tag 背景色
           },
           textStyle: {
             fontSize: 10,
@@ -271,15 +271,16 @@
           },
           offsetY: -5,
           pointStyle: {
-            fill: color
+            fill: color || tagColor
           }
         });
+        const lineColor = color ? color : '#1890ff';
         chart.line({
           startOnZero: false
-        }).position('date*value').color(color);
+        }).position('date*value').color(lineColor);
         chart.area({
           startOnZero: false
-        }).position('date*value').color(color);
+        }).position('date*value').color(lineColor);
         chart.render();
         updateLegend(data[data.length - 1], 'chartLegend_' + id);
       }
@@ -349,7 +350,7 @@
         { "date": "2018-05-30", "value": -45.74 }
       ];
 
-      drawChart(data1, '#1890FF', 'typeOne'); // 状况一
+      drawChart(data1, null, 'typeOne'); // 状况一
       drawChart(data2, '#53BC20', 'typeTwo'); // 状况二： 亏啦
       drawChart(data1, '#F5222D', 'typeThree'); // 状况三：赚啦
   </script>
