@@ -19,6 +19,10 @@
       top: 16.2vw;
       right: 4vw;
     }
+
+    .special .vertical-icon {
+      top: 12.2vw !important;
+    }
   </style>
   <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
 </head>
@@ -166,6 +170,11 @@
       target.addClass('active');
 
       if (id !== 'evaluation') {
+        if (id === 'anav' || id === 'cnav') {
+          $('.landscape').addClass('special');
+        } else {
+          $('.landscape').removeClass('special');
+        }
         $('.landscape').attr('href', './' + id + '-landscape.html?__webview_options__=enableWK%3DYES%26fullscreen%3DYES%26landscape%3Dlandscape%26canPullDown%3DNO%26landscapeOrientation%3Dleft');
         $('.landscape').removeClass('hidden');
       } else {
