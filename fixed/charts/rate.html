@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="yes" name="apple-touch-fullscreen">
+  <meta content="telephone=no,email=no" name="format-detection">
+  <title>七日年化收益率</title>
+  <link rel="stylesheet" href="../../css/fund.css" />
+  <style>
+    .button-30 {
+      width: 33.33%;
+    }
+
+    .chart-container {
+      background-color: #fff;
+      position: relative;
+    }
+
+    #tooltipWrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 8vw;
+      background-color: #E9F1FF;
+      line-height: 8vw;
+      visibility: hidden;
+    }
+
+    #tooltipName,
+    #tooltipValue {
+      font-weight: bold;
+    }
+
+    #tooltipName {
+      float: left;
+      font-size: 3.2vw;
+      color: #2E2E2E;
+      padding-left: 4vw;
+    }
+
+    canvas#mountNode {
+      height: 57.33vw;
+    }
+  </style>
+  <script src="../../js/f2-all.min.js"></script>
+  <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+  <div class="chart-container">
+    <!-- 图表主体 -->
+    <div id="tooltipWrapper">
+      <div id="tooltipName"></div>
+      <div style="float:right;font-size:3.2vw;padding-right: 4vw;">
+        <span style="color:#808080">七日年化收益率:</span>
+        <span id="tooltipValue" style="color:#2E2E2E;"></span>
+      </div>
+    </div>
+    <canvas id="mountNode"></canvas>
+    <!-- 时间切换 按钮 -->
+    <div class="tab">
+      <button class="time-button button-30 active" id="7Day">近 7 日</button>
+      <button class="time-button button-30" id="1Month">近 1 月</button>
+      <button class="time-button button-30" id="3Month">近 3 月</button>
+    </div>
+  </div>
+  <script>
+    const { Animate, Util } = F2;
+    // 自定义线图变更动画
+    Animate.registerAnimation('lineUpdate', function (updateShape, animateCfg) {
+      var cacheShape = updateShape.get('cacheShape'); // 该动画 shape 的前一个状态
+      var cacheAttrs = cacheShape.attrs; // 上一个 shape 属性
+
+      var oldPoints = cacheAttrs.points; // 上一个状态的关键点
+      var newPoints = updateShape.attr('points'); // 当前 shape 的关键点
+
+      var oldLength = oldPoints.length;
+      var newLength = newPoints.length;
+      var deltaLength = oldLength - newLength;
+
+      if (deltaLength > 0) {
+        var firstPoint = newPoints[0];
+        var lastPoint = newPoints[newPoints.length - 1];
+
+        for (var i = 0; i < deltaLength; i++) {
+          newPoints.splice(0, 0, firstPoint);
+        }
+      } else {
+        deltaLength = Math.abs(deltaLength);
+        var firstPoint1 = oldPoints[0];
+        var lastPoint1 = oldPoints[oldPoints.length - 1];
+
+        for (var k = 0; k < deltaLength; k++) {
+          oldPoints.splice(0, 0, firstPoint1);
+        }
+        cacheAttrs.points = oldPoints;
+      }
+      updateShape.attr(cacheAttrs);
+      updateShape.animate().to(Util.mix({
+        attrs: {
+          points: newPoints
+        }
+      }, animateCfg));
+    });
+
+    const data = [
+      { date: '2018-08-09', profit: 1.4786, rate: 4.5980 },
+      { date: '2018-08-10', profit: 1.3705, rate: 4.6660 },
+      { date: '2018-08-12', profit: 2.2686, rate: 4.6320 },
+      { date: '2018-08-13', profit: 1.1169, rate: 4.6000 },
+      { date: '2018-08-14', profit: 1.0518, rate: 4.5140 },
+      { date: '2018-08-15', profit: 0.6912, rate: 4.2470 },
+      { date: '2018-08-16', profit: 1.1038, rate: 4.0440 },
+      { date: '2018-08-17', profit: 1.1093, rate: 3.9020 },
+      { date: '2018-08-19', profit: 2.2073, rate: 3.8690 },
+      { date: '2018-08-20', profit: 1.1004, rate: 3.8600 },
+      { date: '2018-08-21', profit: 1.1084, rate: 3.8910 },
+      { date: '2018-08-22', profit: 1.2701, rate: 4.2050 },
+      { date: '2018-08-23', profit: 1.1133, rate: 4.2100 },
+      { date: '2018-08-24', profit: 1.1277, rate: 4.2200 },
+      { date: '2018-08-26', profit: 2.2552, rate: 4.2460 },
+      { date: '2018-08-27', profit: 1.1253, rate: 4.2590 },
+      { date: '2018-08-28', profit: 1.1315, rate: 4.2720 },
+      { date: '2018-08-29', profit: 1.3493, rate: 4.3150 },
+      { date: '2018-08-30', profit: 1.3090, rate: 4.4210 },
+      { date: '2018-08-31', profit: 1.2835, rate: 4.5060 },
+      { date: '2018-09-02', profit: 2.1395, rate: 4.4430 },
+      { date: '2018-09-03', profit: 1.1012, rate: 4.4300 },
+      { date: '2018-09-04', profit: 1.1563, rate: 4.4440 },
+      { date: '2018-09-05', profit: 1.2060, rate: 4.3660 },
+      { date: '2018-09-06', profit: 1.0479, rate: 4.2240 },
+      { date: '2018-09-07', profit: 1.0613, rate: 4.1030 },
+      { date: '2018-09-09', profit: 2.0746, rate: 4.0680 },
+      { date: '2018-09-10', profit: 1.0817, rate: 4.0570 },
+      { date: '2018-09-11', profit: 1.0914, rate: 4.0220 },
+      { date: '2018-09-12', profit: 1.0955, rate: 3.9620 },
+      { date: '2018-09-13', profit: 1.0031, rate: 3.9380 },
+      { date: '2018-09-14', profit: 1.0419, rate: 3.9270 },
+      { date: '2018-09-16', profit: 2.0359, rate: 3.9060 },
+      { date: '2018-09-17', profit: 1.0338, rate: 3.8800 },
+      { date: '2018-09-18', profit: 0.9922, rate: 3.8270 },
+      { date: '2018-09-19', profit: 1.0755, rate: 3.8160 },
+      { date: '2018-09-20', profit: 1.0084, rate: 3.8190 },
+      { date: '2018-09-21', profit: 0.9838, rate: 3.7870 },
+      { date: '2018-09-24', profit: 2.9042, rate: 3.6980 },
+      { date: '2018-09-25', profit: 0.9383, rate: 3.6690 },
+      { date: '2018-09-26', profit: 0.8851, rate: 3.5660 },
+      { date: '2018-09-27', profit: 0.9040, rate: 3.5090 },
+      { date: '2018-09-28', profit: 0.9640, rate: 3.4990 },
+      { date: '2018-10-07', profit: 7.8568, rate: 3.2380 },
+      { date: '2018-10-08', profit: 0.8963, rate: 3.2500 },
+      { date: '2018-10-09', profit: 1.0442, rate: 3.3430 },
+      { date: '2018-10-10', profit: 1.0049, rate: 3.4140 },
+      { date: '2018-10-11', profit: 0.9341, rate: 3.4470 },
+      { date: '2018-10-12', profit: 0.9136, rate: 3.4680 },
+      { date: '2018-10-14', profit: 1.8290, rate: 3.5130 },
+      { date: '2018-10-15', profit: 0.9131, rate: 3.5220 },
+      { date: '2018-10-16', profit: 0.9267, rate: 3.4590 },
+      { date: '2018-10-17', profit: 0.9335, rate: 3.4200 },
+      { date: '2018-10-18', profit: 0.9271, rate: 3.4160 },
+      { date: '2018-10-19', profit: 1.4642, rate: 3.7410 },
+      { date: '2018-10-21', profit: 1.8542, rate: 3.7270 },
+      { date: '2018-10-22', profit: 0.9458, rate: 3.7450 },
+      { date: '2018-10-23', profit: 0.9330, rate: 3.7480 },
+      { date: '2018-10-24', profit: 0.9970, rate: 3.7830 },
+      { date: '2018-10-25', profit: 1.0990, rate: 3.8760 },
+      { date: '2018-10-26', profit: 0.9275, rate: 3.5860 },
+      { date: '2018-10-28', profit: 1.8558, rate: 3.5870 },
+      { date: '2018-10-29', profit: 0.9611, rate: 3.5950 },
+      { date: '2018-10-30', profit: 0.9570, rate: 3.6080 },
+      { date: '2018-10-31', profit: 0.8998, rate: 3.5550 },
+      { date: '2018-11-01', profit: 0.9235, rate: 3.4610 },
+      { date: '2018-11-02', profit: 0.9735, rate: 3.4850 },
+      { date: '2018-11-04', profit: 1.8596, rate: 3.4870 },
+      { date: '2018-11-05', profit: 1.1265, rate: 3.5770 },
+      { date: '2018-11-06', profit: 1.0005, rate: 3.6000 },
+      { date: '2018-11-07', profit: 0.9467, rate: 3.6260 },
+      { date: '2018-11-08', profit: 0.9460, rate: 3.6380 },
+      { date: '2018-11-09', profit: 0.9515, rate: 3.6260 }
+    ];
+    const senvenDay = data.slice(-7);
+    const oneMonth = data.slice(-28);
+    const lastData = data[data.length - 1];
+
+    const chart = new F2.Chart({
+      id: 'mountNode',
+      padding: [45, 'auto', 'auto'],
+      pixelRatio: window.devicePixelRatio
+    });
+    chart.source(senvenDay, {
+      date: {
+        type: 'timeCat',
+        tickCount: 3,
+        mask: 'MM-DD',
+        range: [0, 1]
+      },
+      rate: {
+        tickCount: 5,
+        formatter(val) {
+          return val.toFixed(2) + '%';
+        }
+      }
+    });
+    chart.axis('date', {
+      label(text, index, total) {
+        const textCfg = {};
+        if (index === 0) {
+          textCfg.textAlign = 'left';
+        } else if (index === total - 1) {
+          textCfg.textAlign = 'right';
+        }
+        return textCfg;
+      }
+    });
+    chart.legend({
+      custom: true,
+      offsetX: 2,
+      items: [
+        {
+          name: '七日年化收益率',
+          fill: '#1890ff',
+          marker(x, y, r, ctx) {
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = ctx.fillStyle;
+            ctx.moveTo(x - 3, y);
+            ctx.lineTo(x + 3, y);
+            ctx.stroke();
+          }
+        }
+      ]
+    });
+    const guideTag = chart.guide().tag({
+      position: [lastData.date, lastData.rate],
+      content: lastData.rate.toFixed(4) + '%',
+      background: {
+        padding: [2, 4]
+      },
+      pointStyle: {
+        fill: '#fff',
+        r: 3,
+        lineWidth: 2,
+        stroke: '#1890ff'
+      },
+      offsetY: -5
+    });
+    chart.tooltip({
+      showCrosshairs: true,
+      custom: true,
+      onChange(obj) {
+        const items = obj.items;
+        const originData = items[0].origin;
+        const date = originData.date;
+        const rate = originData.rate;
+
+        $('#tooltipName').text(date);
+        $('#tooltipValue').text(rate.toFixed(4) + '%');
+
+        $('#tooltipWrapper').css('visibility', 'visible');
+        guideTag.changeVisible(false);
+      },
+      onHide: function () {
+        $('#tooltipWrapper').css('visibility', 'hidden');
+        guideTag.changeVisible(true);
+      }
+    });
+    chart.line().position('date*rate').animate({
+      update: {
+        animation: 'lineUpdate',
+        duration: 400
+      }
+    });
+    chart.render();
+
+    // button 点击操作
+    $('.tab button.time-button').click(function (e) {
+      var target = $(e.target);
+      var id = target.attr('id');
+      if (target.hasClass('active')) {
+        return;
+      }
+
+      var currentActive = $('.tab').find('button.active');
+      currentActive.removeClass('active');
+      target.addClass('active');
+
+      var activeData;
+      if (id === '7Day') {
+        activeData = senvenDay;
+      } else if (id === '1Month') {
+        activeData = oneMonth;
+      } else if (id === '3Month') {
+        activeData = data;
+      }
+      chart.changeData(activeData);
+    });
+  </script>
+</body>
+
+</html>
