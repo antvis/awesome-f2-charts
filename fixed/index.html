@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="yes" name="apple-touch-fullscreen">
+  <meta content="telephone=no,email=no" name="format-detection">
+  <title>定期详情</title>
+  <link rel="stylesheet" href="../css/fund.css" />
+  <style>
+    .status-container {
+      background-image: linear-gradient(-132deg, #1890FF 0%, #2772FF 100%)
+    }
+    .auxiliary-font {
+      opacity: 1;
+      color: rgba(255, 255, 255, .65);
+    }
+    .tab, .tab .item-button {
+      height: 12vw;
+      background-color: #fff;
+    }
+    .tab .item-button.active {
+      color: #1890FF;
+      border-bottom: 1.5px solid #1890FF;
+    }
+    .chart-container {
+      border-bottom: 1px solid #E8E8E8;
+      border-top: 1px solid #e8e8e8;
+    }
+    .chart-iframe {
+      height: 68vw;
+    }
+    .bar {
+      height: 8vw;
+      line-height: 8vw;
+    }
+    .detail-container {
+      background-color: #fff;
+      margin-top: 2.13vw;
+      height: 40.53vw;
+    }
+    .flex-list {
+      margin: 0;
+      padding: 0 4.67vw;
+    }
+    .redirect-arrow {
+      margin-right: 0;
+      color: #999;
+      font-size: 3.73vw;
+    }
+    .redirect-arrow img {
+      width: 2.5vw;
+      display: inline-block;
+      line-height: 4.67vw;
+      margin-top: -2px;
+    }
+    /* .vertical-icon {
+      background-image: url(../image/vertical.png);
+      background-size: contain;
+      width: 5.867vw;
+      height: 5.867vw;
+      position: absolute;
+      top: 16.2vw;
+      right: 4vw;
+    }
+
+    .special .vertical-icon {
+      top: 12.2vw !important;
+    } */
+  </style>
+  <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+  <div class="status-container">
+    <p style="line-height: 1;margin: 2.4vw 0 3.2vw;">
+      <span style="font-size: 4.8vw;">xx 定期名称</span>
+      <span style="font-size: 3.066666666666667vw;font-weight: 300;padding-left: 1.7333333333333334vw;">001938</span>
+    </p>
+    <div class="flex" style="margin-bottom: 1.0666666666666667vw">
+      <div class="auxiliary-font">七日年化</div>
+      <div class="auxiliary-font">万分收益</div>
+    </div>
+    <div class="flex" style="margin-bottom: 4vw">
+      <div class="main-font">3.6260%</div>
+      <div class="main-font">0.9515</div>
+    </div>
+    <div class="cut-off-container flex">
+      <div class="auxiliary-font" style="line-height: 9.6vw;">
+        <span class="border-font">低风险</span>
+        <span class="border-font">1000 元起购</span>
+      </div>
+      <div class="auxiliary-font right-part" style="line-height: 9.6vw;">
+        产品期限：<span style="color: #fff;font-size: 3.733vw;">30</span> 天
+      </div>
+    </div>
+  </div>
+
+  <!-- 时间切换 按钮 -->
+  <div class="tab" id="sceneSwitch" style="box-shadow: none;">
+    <button class="item-button button-50 active" id="rate">七日年化收益率</button>
+    <button class="item-button button-50" id="profit">万份收益</button>
+  </div>
+  <div class="chart-container">
+    <!-- <a class="landscape" target="_blank" href="./trend-landscape.html?__webview_options__=enableWK%3DYES%26fullscreen%3DYES%26landscape%3Dlandscape%26canPullDown%3DNO%26landscapeOrientation%3Dleft">
+      <div class="vertical-icon"></div>
+    </a> -->
+    <iframe class="chart-iframe" id="chart" src="./charts/rate.html" frameborder="0"></iframe>
+  </div>
+
+  <div class="detail-container">
+    <div class="flex-list">
+      <div>交易详情</div>
+      <div class="redirect-arrow">
+        查看详情
+        <img src="../image/arrow.png" alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="bar">火爆抢购中，每日限购 10,000 元</div>
+    <div class="tab button-group">
+      <button class="item-button" style="width: 14.67vw;height: 13.33333vw;border-right: 1px solid #E8E8E8;font-size: 2.67vw">
+        <img src="../image/png1.png" style="width:4.8vw;height: 4.533vw;;display: block;margin: auto;margin-bottom: 0.8vw;">
+        讨论区
+      </button>
+      <button class="item-button" style="width: 85.33vw;height: 13.33333vw;line-height: 13.33333vw;background: #2772FF;color:#fff;font-size: 4.55555333vw">预约</button>
+    </div>
+  </div>
+
+  <script>
+    // 切换按钮，更新数据
+    var iFrame = $('#chart');
+    $('#sceneSwitch .item-button').click(function (e) {
+      var target = $(e.target);
+      var id = target.attr('id');
+      if (target.hasClass('active')) {
+        return;
+      }
+      var currentActive = $('#sceneSwitch').find('button.active');
+      currentActive.removeClass('active');
+      target.addClass('active');
+      iFrame.attr('src', './charts/' + id + '.html')
+    });
+
+  </script>
+</body>
+
+</html>
