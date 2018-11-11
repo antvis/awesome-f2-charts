@@ -2,11 +2,9 @@
 
 ## 可视化基础教程
 
-|    案例       | 二维码 |
-| ------------ | --- |
-| [健康运动](https://antvis.github.io/awesome-f2-charts/steps.html)   | ![img](https://gw.alipayobjects.com/zos/rmsportal/NEtGfSrLfxknPEsqzyRs.png) |
-| [基金诊断](https://antvis.github.io/awesome-f2-charts/fund.html)    | ![img](https://gw.alipayobjects.com/zos/rmsportal/cQPUOkEoGHQFrnwKYGoS.png) |
-| [一周天气](https://antvis.github.io/awesome-f2-charts/weather.html)    | ![img](https://gw.alipayobjects.com/zos/rmsportal/RPmzovPEloAfVGyKxqEm.png) |
+| 健康运动 | 基金诊断 | 一周天气 |
+| -------- | -------- | -------- |
+| ![img](https://gw.alipayobjects.com/zos/rmsportal/NEtGfSrLfxknPEsqzyRs.png) | ![img](https://gw.alipayobjects.com/zos/rmsportal/cQPUOkEoGHQFrnwKYGoS.png) | ![img](https://gw.alipayobjects.com/zos/rmsportal/RPmzovPEloAfVGyKxqEm.png) |
 
 
 ## 基金可视化场景
