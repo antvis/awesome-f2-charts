@@ -1,6 +1,6 @@
 # F2 案例展示
 
-> 手机上体验更佳哦！~
+## 可视化基础教程
 
 |    案例       | 二维码 |
 | ------------ | --- |
@@ -21,3 +21,8 @@
 | 单位净值 | 业绩走势(带交易)  | 业绩走势(不带交易) |
 | -------- | -------- | -------- |
 |  ![image](https://gw.alipayobjects.com/zos/rmsportal/aHeudkOyoayXONmUMSqu.png)    | ![image](https://gw.alipayobjects.com/zos/rmsportal/HvSgiOsxDoxhrGdxcgyR.png)   |   ![image](https://gw.alipayobjects.com/zos/rmsportal/jIOSdLKojXqzCeCqHcPQ.png)   |
+
+## 定期理财可视化场景
+
+![image](https://gw.alipayobjects.com/zos/rmsportal/rBgzDQxobzseXShRGQmA.png)
+
